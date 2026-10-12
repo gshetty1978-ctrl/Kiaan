@@ -1,0 +1,304 @@
+<title>Kiaan Ganesh Shetty</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* layout: centered single column, generous vertical rhythm, work list as a plain stacked ledger */
+  :root{
+    --bg: #f6f5f1;
+    --fg: #1d2420;
+    --muted: #5e6b63;
+    --line: #d9d6cc;
+    --accent: #2f6e62;
+    --surface: #ffffff;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg: #141815;
+      --fg: #e9e9e3;
+      --muted: #9aa39b;
+      --line: #2b322d;
+      --accent: #6fcbb8;
+      --surface: #1b211c;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg: #141815;
+    --fg: #e9e9e3;
+    --muted: #9aa39b;
+    --line: #2b322d;
+    --accent: #6fcbb8;
+    --surface: #1b211c;
+    color-scheme: dark;
+  }
+
+  *{box-sizing:border-box}
+  body{
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "Work Sans", ui-sans-serif, system-ui, sans-serif;
+    padding-inline: 20px;
+    padding-block: 64px;
+    line-height: 1.5;
+  }
+  .page{
+    max-width: 640px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 56px;
+  }
+
+  .intro{
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .kicker{
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+  }
+  h1{
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 500;
+    font-size: clamp(2.1rem, 6vw, 3.1rem);
+    line-height: 1.08;
+    margin: 0;
+    text-wrap: balance;
+  }
+  .bio{
+    font-size: 1.05rem;
+    color: var(--muted);
+    max-width: 34em;
+    margin: 0;
+  }
+  .bio strong{
+    color: var(--fg);
+    font-weight: 500;
+  }
+
+  section h2{
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 500;
+    font-size: 1.1rem;
+    letter-spacing: 0.01em;
+    margin: 0 0 20px;
+    color: var(--muted);
+  }
+
+  .work-list{
+    display: flex;
+    flex-direction: column;
+  }
+  .work-item{
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    padding-block: 20px;
+    border-top: 1px solid var(--line);
+    text-decoration: none;
+    color: var(--fg);
+    transition: padding-left 0.15s ease, color 0.15s ease;
+  }
+  .work-item:last-child{
+    border-bottom: 1px solid var(--line);
+  }
+  .work-item:hover, .work-item:focus-visible{
+    padding-left: 8px;
+    color: var(--accent);
+  }
+  .work-item:focus-visible{
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+  .work-text{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+  }
+  .work-name{
+    font-family: "Fraunces", Georgia, serif;
+    font-size: 1.15rem;
+    font-weight: 500;
+  }
+  .work-desc{
+    font-size: 0.92rem;
+    color: var(--muted);
+    max-width: 38em;
+  }
+  .work-item:hover .work-desc, .work-item:focus-visible .work-desc{
+    color: inherit;
+  }
+  .work-meta{
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    flex-shrink: 0;
+    font-size: 0.85rem;
+    color: var(--muted);
+    padding-top: 2px;
+  }
+  .work-url{
+    font-variant-numeric: tabular-nums;
+  }
+  .arrow{
+    display: inline-block;
+    transition: transform 0.15s ease;
+  }
+  .work-item:hover .arrow, .work-item:focus-visible .arrow{
+    transform: translate(2px, -2px);
+  }
+
+  footer{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 20px;
+    align-items: center;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+  footer a{
+    color: var(--fg);
+    text-decoration: none;
+    border-bottom: 1px solid var(--line);
+  }
+  footer a:hover, footer a:focus-visible{
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+  .dot{
+    color: var(--line);
+  }
+
+  .theme-toggle{
+    position: fixed;
+    top: calc(20px + env(safe-area-inset-top, 0px));
+    right: 20px;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    color: var(--fg);
+    cursor: pointer;
+    font-size: 1rem;
+    line-height: 1;
+    transition: border-color 0.15s ease, color 0.15s ease;
+  }
+  .theme-toggle:hover, .theme-toggle:focus-visible{
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .theme-toggle:focus-visible{
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  @media (max-width: 420px){
+    .work-item{ flex-direction: column; align-items: flex-start; gap: 6px; }
+  }
+</style>
+
+<button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode">◐</button>
+
+<div class="page">
+  <div class="intro">
+    <p class="kicker">Kiaan Ganesh Shetty</p>
+    <h1>Web developer, building small things that work.</h1>
+    <p class="bio">
+      I design and build websites and web apps end to end — <strong>front end, back end, and everything
+      in between.</strong> Below are a few of the ones I've shipped.
+    </p>
+  </div>
+
+  <section>
+    <h2>Selected work</h2>
+    <div class="work-list">
+      <a class="work-item" href="https://thenutproject.onrender.com" target="_blank" rel="noopener">
+        <span class="work-text">
+          <span class="work-name">The Nut Project</span>
+          <span class="work-desc">An online shop for handmade nut butters and treats, built with a full ordering flow.</span>
+        </span>
+        <span class="work-meta"><span class="work-url">thenutproject.onrender.com</span><span class="arrow">↗</span></span>
+      </a>
+      <a class="work-item" href="https://velarque.onrender.com" target="_blank" rel="noopener">
+        <span class="work-text">
+          <span class="work-name">Velarque</span>
+          <span class="work-desc">A storefront for handmade stationery and crafts — notebooks, cards, charms and more, each with its own listing.</span>
+        </span>
+        <span class="work-meta"><span class="work-url">velarque.onrender.com</span><span class="arrow">↗</span></span>
+      </a>
+      <a class="work-item" href="https://humans-vs-aliens.onrender.com" target="_blank" rel="noopener">
+        <span class="work-text">
+          <span class="work-name">Humans vs Aliens</span>
+          <span class="work-desc">A pixel-art lane-defense game — defend Earth one lane at a time, with shops, upgrades and a sandbox mode.</span>
+        </span>
+        <span class="work-meta"><span class="work-url">humans-vs-aliens.onrender.com</span><span class="arrow">↗</span></span>
+      </a>
+      <a class="work-item" href="https://gifstudio.onrender.com" target="_blank" rel="noopener">
+        <span class="work-text">
+          <span class="work-name">GIF Studio</span>
+          <span class="work-desc">A browser-based GIF and animation editor — layers, onion skinning, tweening and export to GIF, APNG or WebM.</span>
+        </span>
+        <span class="work-meta"><span class="work-url">gifstudio.onrender.com</span><span class="arrow">↗</span></span>
+      </a>
+      <a class="work-item" href="https://mokirush.onrender.com" target="_blank" rel="noopener">
+        <span class="work-text">
+          <span class="work-name">Moki</span>
+          <span class="work-desc">A live multiplayer quiz party game — host on a big screen while players join and answer from their phones.</span>
+        </span>
+        <span class="work-meta"><span class="work-url">mokirush.onrender.com</span><span class="arrow">↗</span></span>
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    <a href="https://github.com/gshetty1978-ctrl" target="_blank" rel="noopener">GitHub</a>
+    <span class="dot">·</span>
+    <a href="mailto:gshetty1978@gmail.com">gshetty1978@gmail.com</a>
+  </footer>
+</div>
+
+<script>
+  (function(){
+    var root = document.documentElement;
+    var btn = document.getElementById('themeToggle');
+    var stored = null;
+    try { stored = localStorage.getItem('theme'); } catch(e) {}
+
+    function systemPrefersDark(){
+      return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    }
+    function isDark(){
+      if (root.getAttribute('data-theme') === 'dark') return true;
+      if (root.getAttribute('data-theme') === 'light') return false;
+      return systemPrefersDark();
+    }
+    function render(){
+      btn.textContent = isDark() ? '☀' : '☾';
+    }
+    if (stored === 'dark' || stored === 'light') {
+      root.setAttribute('data-theme', stored);
+    }
+    render();
+
+    btn.addEventListener('click', function(){
+      var next = isDark() ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      try { localStorage.setItem('theme', next); } catch(e) {}
+      render();
+    });
+  })();
+</script>
