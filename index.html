@@ -330,7 +330,46 @@
     top: calc(16px + env(safe-area-inset-top, 0px));
     right: 16px;
   }
+
+  .page-loader{
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    animation: loader-dismiss 0.5s ease forwards;
+    animation-delay: 1.3s;
+  }
+  .page-loader-mark{
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 600;
+    font-size: 2rem;
+    color: var(--accent);
+    width: 56px;
+    height: 56px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: loader-pulse 1.1s ease-in-out infinite;
+  }
+  @keyframes loader-dismiss{
+    to{ opacity: 0; visibility: hidden; }
+  }
+  @keyframes loader-pulse{
+    0%, 100%{ opacity: 0.45; transform: scale(0.96); }
+    50%{ opacity: 1; transform: scale(1); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .page-loader-mark{ animation: none; }
+  }
 </style>
+
+<div class="page-loader" id="pageLoader" aria-hidden="true"><span class="page-loader-mark">K</span></div>
 
 <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode">◐</button>
 
@@ -454,6 +493,17 @@
 </div>
 
 <script>
+  (function(){
+    var loader = document.getElementById('pageLoader');
+    if (!loader) return;
+    function dismiss(){
+      loader.style.opacity = '0';
+      loader.style.visibility = 'hidden';
+    }
+    if (document.readyState === 'complete') dismiss();
+    else window.addEventListener('load', dismiss);
+  })();
+
   (function(){
     var root = document.documentElement;
     var btn = document.getElementById('themeToggle');
