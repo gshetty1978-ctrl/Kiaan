@@ -233,6 +233,19 @@
   .dot{
     color: var(--line);
   }
+  .footer-block{
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .signature{
+    margin: 0;
+    font-size: 0.78rem;
+    letter-spacing: 0.02em;
+    color: var(--muted);
+    opacity: 0.75;
+    text-align: center;
+  }
   .visitor-badge{
     font-variant-numeric: tabular-nums;
   }
@@ -473,13 +486,16 @@
     </div>
   </section>
 
-  <footer>
-    <a href="https://github.com/gshetty1978-ctrl" target="_blank" rel="noopener">GitHub</a>
-    <span class="dot">·</span>
-    <a href="mailto:gshetty1978@gmail.com">gshetty1978@gmail.com</a>
-    <span class="dot">·</span>
-    <span class="visitor-badge" id="visitorBadge">· · · visitors</span>
-  </footer>
+  <div class="footer-block">
+    <footer>
+      <a href="https://github.com/gshetty1978-ctrl" target="_blank" rel="noopener">GitHub</a>
+      <span class="dot">·</span>
+      <a href="mailto:gshetty1978@gmail.com">gshetty1978@gmail.com</a>
+      <span class="dot">·</span>
+      <span class="visitor-badge" id="visitorBadge">· · · visitors</span>
+    </footer>
+    <p class="signature">A Kiaan Ganesh Shetty Creation · 2026 · 2 Days In The Making</p>
+  </div>
 </div>
 
 <div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true" aria-label="Screenshot preview">
