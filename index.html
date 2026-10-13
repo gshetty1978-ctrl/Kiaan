@@ -97,25 +97,30 @@
   }
   .work-item{
     display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 16px;
+    flex-direction: column;
+    gap: 14px;
     padding-block: 20px;
     border-top: 1px solid var(--line);
-    text-decoration: none;
-    color: var(--fg);
-    transition: padding-left 0.15s ease, color 0.15s ease;
   }
   .work-item:last-child{
     border-bottom: 1px solid var(--line);
   }
-  .work-item:hover, .work-item:focus-visible{
-    padding-left: 8px;
+  .work-head{
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    text-decoration: none;
+    color: var(--fg);
+    transition: color 0.15s ease;
+  }
+  .work-head:hover, .work-head:focus-visible{
     color: var(--accent);
   }
-  .work-item:focus-visible{
+  .work-head:focus-visible{
     outline: 2px solid var(--accent);
     outline-offset: 2px;
+    border-radius: 2px;
   }
   .work-text{
     display: flex;
@@ -133,7 +138,7 @@
     color: var(--muted);
     max-width: 38em;
   }
-  .work-item:hover .work-desc, .work-item:focus-visible .work-desc{
+  .work-head:hover .work-desc, .work-head:focus-visible .work-desc{
     color: inherit;
   }
   .work-meta{
@@ -152,8 +157,44 @@
     display: inline-block;
     transition: transform 0.15s ease;
   }
-  .work-item:hover .arrow, .work-item:focus-visible .arrow{
+  .work-head:hover .arrow, .work-head:focus-visible .arrow{
     transform: translate(2px, -2px);
+  }
+
+  .shots-grid{
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 6px;
+  }
+  .shot{
+    padding: 0;
+    margin: 0;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    overflow: hidden;
+    background: var(--surface);
+    cursor: zoom-in;
+    line-height: 0;
+    min-width: 0;
+    transition: border-color 0.15s ease, transform 0.15s ease;
+  }
+  .shot:hover, .shot:focus-visible{
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+  .shot:focus-visible{
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+  .shot img{
+    display: block;
+    width: 100%;
+    aspect-ratio: 8 / 5;
+    object-fit: contain;
+  }
+
+  @media (max-width: 420px){
+    .shots-grid{ grid-template-columns: repeat(3, 1fr); }
   }
 
   footer{
@@ -206,8 +247,70 @@
     outline-offset: 2px;
   }
 
-  @media (max-width: 420px){
-    .work-item{ flex-direction: column; align-items: flex-start; gap: 6px; }
+  .lightbox{
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 10, 8, 0.86);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    z-index: 100;
+  }
+  .lightbox[hidden]{
+    display: none;
+  }
+  .lightbox-frame{
+    position: relative;
+    max-width: min(900px, 92vw);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  .lightbox-frame img{
+    display: block;
+    max-width: 100%;
+    max-height: 68vh;
+    border-radius: 8px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  }
+  .lightbox-caption{
+    color: #f3f2ee;
+    font-size: 0.88rem;
+    text-align: center;
+    margin: 0;
+  }
+  .lightbox-btn{
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #fff;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.1rem;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s ease;
+  }
+  .lightbox-btn:hover, .lightbox-btn:focus-visible{
+    background: rgba(255, 255, 255, 0.24);
+  }
+  .lightbox-nav{
+    position: absolute;
+    top: 42%;
+    transform: translateY(-50%);
+  }
+  .lightbox-prev{ left: 4px; }
+  .lightbox-next{ right: 4px; }
+  .lightbox-close{
+    position: fixed;
+    top: calc(16px + env(safe-area-inset-top, 0px));
+    right: 16px;
   }
 </style>
 
@@ -226,41 +329,90 @@
   <section>
     <h2>Selected work</h2>
     <div class="work-list">
-      <a class="work-item" href="https://thenutproject.onrender.com" target="_blank" rel="noopener">
-        <span class="work-text">
-          <span class="work-name">The Nut Project</span>
-          <span class="work-desc">An online shop for handmade nut butters and treats, built with a full ordering flow.</span>
-        </span>
-        <span class="work-meta"><span class="work-url">thenutproject.onrender.com</span><span class="arrow">↗</span></span>
-      </a>
-      <a class="work-item" href="https://velarque.onrender.com" target="_blank" rel="noopener">
-        <span class="work-text">
-          <span class="work-name">Velarque</span>
-          <span class="work-desc">A storefront for handmade stationery and crafts: notebooks, cards, charms and more, each with its own listing.</span>
-        </span>
-        <span class="work-meta"><span class="work-url">velarque.onrender.com</span><span class="arrow">↗</span></span>
-      </a>
-      <a class="work-item" href="https://humans-vs-aliens.onrender.com" target="_blank" rel="noopener">
-        <span class="work-text">
-          <span class="work-name">Humans vs Aliens</span>
-          <span class="work-desc">A pixel-art lane-defense game. Defend Earth one lane at a time, with shops, upgrades and a sandbox mode.</span>
-        </span>
-        <span class="work-meta"><span class="work-url">humans-vs-aliens.onrender.com</span><span class="arrow">↗</span></span>
-      </a>
-      <a class="work-item" href="https://gifstudio.onrender.com" target="_blank" rel="noopener">
-        <span class="work-text">
-          <span class="work-name">GIF Studio</span>
-          <span class="work-desc">A browser-based GIF and animation editor with layers, onion skinning, tweening and export to GIF, APNG or WebM.</span>
-        </span>
-        <span class="work-meta"><span class="work-url">gifstudio.onrender.com</span><span class="arrow">↗</span></span>
-      </a>
-      <a class="work-item" href="https://mokirush.onrender.com" target="_blank" rel="noopener">
-        <span class="work-text">
-          <span class="work-name">Moki</span>
-          <span class="work-desc">A live multiplayer quiz party game. Host on a big screen while players join and answer from their phones.</span>
-        </span>
-        <span class="work-meta"><span class="work-url">mokirush.onrender.com</span><span class="arrow">↗</span></span>
-      </a>
+      <div class="work-item">
+        <a class="work-head" href="https://thenutproject.onrender.com" target="_blank" rel="noopener">
+          <span class="work-text">
+            <span class="work-name">The Nut Project</span>
+            <span class="work-desc">An online shop for handmade nut butters and treats, built with a full ordering flow.</span>
+          </span>
+          <span class="work-meta"><span class="work-url">thenutproject.onrender.com</span><span class="arrow">↗</span></span>
+        </a>
+        <div class="shots-grid" aria-label="Screenshots of The Nut Project">
+          <button class="shot" type="button" data-gallery="nut" data-index="0"><img src="shots/nut-1.jpg" alt="The Nut Project homepage with a hero carousel of nut butter jars" loading="lazy"></button>
+          <button class="shot" type="button" data-gallery="nut" data-index="1"><img src="shots/nut-2.jpg" alt="Product grid of flavoured nut butters and granola" loading="lazy"></button>
+          <button class="shot" type="button" data-gallery="nut" data-index="2"><img src="shots/nut-3.jpg" alt="Thecha Peanut Butter product detail page with price and description" loading="lazy"></button>
+          <button class="shot" type="button" data-gallery="nut" data-index="3"><img src="shots/nut-4.jpg" alt="Shopping cart page with order total" loading="lazy"></button>
+          <button class="shot" type="button" data-gallery="nut" data-index="4"><img src="shots/nut-5.jpg" alt="Our Story page introducing the maker behind the brand" loading="lazy"></button>
+        </div>
+      </div>
+
+      <div class="work-item">
+        <a class="work-head" href="https://velarque.onrender.com" target="_blank" rel="noopener">
+          <span class="work-text">
+            <span class="work-name">Velarque</span>
+            <span class="work-desc">A storefront for handmade stationery and crafts: notebooks, cards, charms and more, each with its own listing.</span>
+          </span>
+          <span class="work-meta"><span class="work-url">velarque.onrender.com</span><span class="arrow">↗</span></span>
+        </a>
+        <div class="shots-grid" aria-label="Screenshots of Velarque">
+          <button class="shot" type="button" data-gallery="velarque" data-index="0"><img src="shots/velarque-1.jpg" alt="Velarque catalogue showing notebooks, journals, stickers and bookmarks" loading="lazy"></button>
+          <button class="shot" type="button" data-gallery="velarque" data-index="1"><img src="shots/velarque-2.jpg" alt="Catalogue section with cards, envelopes and scrapbook kits" loading="lazy"></button>
+          <button class="shot" type="button" data-gallery="velarque" data-index="2"><img src="shots/velarque-3.jpg" alt="Catalogue section with charms, name tags and gift boxes" loading="lazy"></button>
+          <button class="shot" type="button" data-gallery="velarque" data-index="3"><img src="shots/velarque-4.jpg" alt="Blind bags and boxes listed with size options" loading="lazy"></button>
+          <button class="shot" type="button" data-gallery="velarque" data-index="4"><img src="shots/velarque-5.jpg" alt="Catalogue section with crochet, memo pads and art cards" loading="lazy"></button>
+        </div>
+      </div>
+
+      <div class="work-item">
+        <a class="work-head" href="https://humans-vs-aliens.onrender.com" target="_blank" rel="noopener">
+          <span class="work-text">
+            <span class="work-name">Humans vs Aliens</span>
+            <span class="work-desc">A pixel-art lane-defense game. Defend Earth one lane at a time, with shops, upgrades and a sandbox mode.</span>
+          </span>
+          <span class="work-meta"><span class="work-url">humans-vs-aliens.onrender.com</span><span class="arrow">↗</span></span>
+        </a>
+        <div class="shots-grid" aria-label="Screenshots of Humans vs Aliens">
+          <button class="shot" type="button" data-gallery="hva" data-index="0"><img src="shots/hva-1.jpg" alt="Opening cutscene of a near-future city at dusk" loading="lazy"></button>
+          <button class="shot" type="button" data-gallery="hva" data-index="1"><img src="shots/hva-2.png" alt="Main menu with Play, Shop, Aliens and Sandbox options" loading="lazy"></button>
+          <button class="shot" type="button" data-gallery="hva" data-index="2"><img src="shots/hva-3.jpg" alt="Mission select screen for World 1, City Outskirts" loading="lazy"></button>
+          <button class="shot" type="button" data-gallery="hva" data-index="3"><img src="shots/hva-4.jpg" alt="Squad select screen with soldier stats before deploying" loading="lazy"></button>
+          <button class="shot" type="button" data-gallery="hva" data-index="4"><img src="shots/hva-5.jpg" alt="Lane-defense gameplay board with five lanes" loading="lazy"></button>
+        </div>
+      </div>
+
+      <div class="work-item">
+        <a class="work-head" href="https://gifstudio.onrender.com" target="_blank" rel="noopener">
+          <span class="work-text">
+            <span class="work-name">GIF Studio</span>
+            <span class="work-desc">A browser-based GIF and animation editor with layers, onion skinning, tweening and export to GIF, APNG or WebM.</span>
+          </span>
+          <span class="work-meta"><span class="work-url">gifstudio.onrender.com</span><span class="arrow">↗</span></span>
+        </a>
+        <div class="shots-grid" aria-label="Screenshots of GIF Studio">
+          <button class="shot" type="button" data-gallery="gif" data-index="0"><img src="shots/gif-1.jpg" alt="Sign-in screen for Frame Studio, the GIF editor" loading="lazy"></button>
+          <button class="shot" type="button" data-gallery="gif" data-index="1"><img src="shots/gif-2.jpg" alt="New project dialog with canvas size presets" loading="lazy"></button>
+          <button class="shot" type="button" data-gallery="gif" data-index="2"><img src="shots/gif-3.jpg" alt="Full editor layout with tools, canvas, timeline and export panel" loading="lazy"></button>
+          <button class="shot" type="button" data-gallery="gif" data-index="3"><img src="shots/gif-4.jpg" alt="Stamps and properties panel with shape and colour options" loading="lazy"></button>
+          <button class="shot" type="button" data-gallery="gif" data-index="4"><img src="shots/gif-5.jpg" alt="Searchable command palette listing every tool and shortcut" loading="lazy"></button>
+        </div>
+      </div>
+
+      <div class="work-item">
+        <a class="work-head" href="https://mokirush.onrender.com" target="_blank" rel="noopener">
+          <span class="work-text">
+            <span class="work-name">Moki</span>
+            <span class="work-desc">A live multiplayer quiz party game. Host on a big screen while players join and answer from their phones.</span>
+          </span>
+          <span class="work-meta"><span class="work-url">mokirush.onrender.com</span><span class="arrow">↗</span></span>
+        </a>
+        <div class="shots-grid" aria-label="Screenshots of Moki">
+          <button class="shot" type="button" data-gallery="moki" data-index="0"><img src="shots/moki-1.jpg" alt="Moki home screen with Create a Game, Join a Game and Play Alone" loading="lazy"></button>
+          <button class="shot" type="button" data-gallery="moki" data-index="1"><img src="shots/moki-2.jpg" alt="Quick Play setup with topic, question count and timer options" loading="lazy"></button>
+          <button class="shot" type="button" data-gallery="moki" data-index="2"><img src="shots/moki-3.jpg" alt="Quiz Creator screen for building a custom quiz" loading="lazy"></button>
+          <button class="shot" type="button" data-gallery="moki" data-index="3"><img src="shots/moki-4.jpg" alt="Avatar customisation screen for a player's Moki character" loading="lazy"></button>
+          <button class="shot" type="button" data-gallery="moki" data-index="4"><img src="shots/moki-5.jpg" alt="Player profile screen with level, stats and cosmetics" loading="lazy"></button>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -269,6 +421,16 @@
     <span class="dot">·</span>
     <a href="mailto:gshetty1978@gmail.com">gshetty1978@gmail.com</a>
   </footer>
+</div>
+
+<div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true" aria-label="Screenshot preview">
+  <button class="lightbox-btn lightbox-close" id="lightboxClose" type="button" aria-label="Close preview">✕</button>
+  <div class="lightbox-frame">
+    <button class="lightbox-btn lightbox-nav lightbox-prev" id="lightboxPrev" type="button" aria-label="Previous screenshot">‹</button>
+    <img id="lightboxImg" src="" alt="">
+    <button class="lightbox-btn lightbox-nav lightbox-next" id="lightboxNext" type="button" aria-label="Next screenshot">›</button>
+    <p class="lightbox-caption" id="lightboxCaption"></p>
+  </div>
 </div>
 
 <script>
@@ -299,6 +461,76 @@
       root.setAttribute('data-theme', next);
       try { localStorage.setItem('theme', next); } catch(e) {}
       render();
+    });
+  })();
+
+  (function(){
+    var names = {
+      nut: 'The Nut Project',
+      velarque: 'Velarque',
+      hva: 'Humans vs Aliens',
+      gif: 'GIF Studio',
+      moki: 'Moki'
+    };
+    var lightbox = document.getElementById('lightbox');
+    var img = document.getElementById('lightboxImg');
+    var caption = document.getElementById('lightboxCaption');
+    var current = { gallery: null, index: 0 };
+    var lastFocused = null;
+
+    function shotsFor(gallery){
+      return Array.prototype.slice.call(document.querySelectorAll('.shot[data-gallery="' + gallery + '"] img'));
+    }
+
+    function show(){
+      var shots = shotsFor(current.gallery);
+      var total = shots.length;
+      current.index = (current.index + total) % total;
+      var source = shots[current.index];
+      img.src = source.src;
+      img.alt = source.alt;
+      caption.textContent = names[current.gallery] + ' — ' + (current.index + 1) + ' / ' + total;
+    }
+
+    function open(gallery, index, trigger){
+      current.gallery = gallery;
+      current.index = index;
+      lastFocused = trigger || document.activeElement;
+      show();
+      lightbox.hidden = false;
+      document.body.style.overflow = 'hidden';
+      document.getElementById('lightboxClose').focus();
+    }
+
+    function close(){
+      lightbox.hidden = true;
+      document.body.style.overflow = '';
+      if (lastFocused && typeof lastFocused.focus === 'function') lastFocused.focus();
+    }
+
+    document.querySelectorAll('.shot').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        open(btn.getAttribute('data-gallery'), parseInt(btn.getAttribute('data-index'), 10), btn);
+      });
+    });
+
+    document.getElementById('lightboxPrev').addEventListener('click', function(){
+      current.index -= 1;
+      show();
+    });
+    document.getElementById('lightboxNext').addEventListener('click', function(){
+      current.index += 1;
+      show();
+    });
+    document.getElementById('lightboxClose').addEventListener('click', close);
+    lightbox.addEventListener('click', function(e){
+      if (e.target === lightbox) close();
+    });
+    document.addEventListener('keydown', function(e){
+      if (lightbox.hidden) return;
+      if (e.key === 'Escape') close();
+      else if (e.key === 'ArrowLeft') { current.index -= 1; show(); }
+      else if (e.key === 'ArrowRight') { current.index += 1; show(); }
     });
   })();
 </script>
