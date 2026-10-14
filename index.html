@@ -211,6 +211,55 @@
     .shots-grid{ grid-template-columns: repeat(3, 1fr); }
   }
 
+  .embed-row{
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .embed-toggle{
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    background: var(--surface);
+    color: var(--fg);
+    font-family: inherit;
+    font-size: 0.82rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: border-color 0.15s ease, color 0.15s ease;
+  }
+  .embed-toggle:hover, .embed-toggle:focus-visible{
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .embed-toggle:focus-visible{
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+  .embed-note{
+    font-size: 0.82rem;
+    color: var(--muted);
+  }
+  .embed-frame-wrap{
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--surface);
+  }
+  .embed-frame-wrap[hidden]{
+    display: none;
+  }
+  .embed-frame-wrap iframe{
+    display: block;
+    width: 100%;
+    height: 520px;
+    border: 0;
+  }
+
   footer{
     display: flex;
     flex-wrap: wrap;
@@ -414,6 +463,10 @@
           <button class="shot" type="button" data-gallery="nut" data-index="3"><img src="shots/nut-4.jpg" alt="Shopping cart page with order total" loading="lazy"></button>
           <button class="shot" type="button" data-gallery="nut" data-index="4"><img src="shots/nut-5.jpg" alt="Our Story page introducing the maker behind the brand" loading="lazy"></button>
         </div>
+        <div class="embed-row">
+          <button class="embed-toggle" type="button" data-embed-target="embed-nut" data-embed-url="https://thenutproject.onrender.com" aria-expanded="false">▶ Launch here</button>
+        </div>
+        <div class="embed-frame-wrap" id="embed-nut" hidden></div>
       </div>
 
       <div class="work-item">
@@ -431,6 +484,7 @@
           <button class="shot" type="button" data-gallery="velarque" data-index="3"><img src="shots/velarque-4.jpg" alt="Blind bags and boxes listed with size options" loading="lazy"></button>
           <button class="shot" type="button" data-gallery="velarque" data-index="4"><img src="shots/velarque-5.jpg" alt="Catalogue section with crochet, memo pads and art cards" loading="lazy"></button>
         </div>
+        <p class="embed-note">This one blocks embedding on its end, so it only opens in a new tab.</p>
       </div>
 
       <div class="work-item">
@@ -448,6 +502,10 @@
           <button class="shot" type="button" data-gallery="hva" data-index="3"><img src="shots/hva-4.jpg" alt="Squad select screen with soldier stats before deploying" loading="lazy"></button>
           <button class="shot" type="button" data-gallery="hva" data-index="4"><img src="shots/hva-5.jpg" alt="Lane-defense gameplay board with five lanes" loading="lazy"></button>
         </div>
+        <div class="embed-row">
+          <button class="embed-toggle" type="button" data-embed-target="embed-hva" data-embed-url="https://humans-vs-aliens.onrender.com" aria-expanded="false">▶ Launch here</button>
+        </div>
+        <div class="embed-frame-wrap" id="embed-hva" hidden></div>
       </div>
 
       <div class="work-item">
@@ -465,6 +523,10 @@
           <button class="shot" type="button" data-gallery="gif" data-index="3"><img src="shots/gif-4.jpg" alt="Stamps and properties panel with shape and colour options" loading="lazy"></button>
           <button class="shot" type="button" data-gallery="gif" data-index="4"><img src="shots/gif-5.jpg" alt="Searchable command palette listing every tool and shortcut" loading="lazy"></button>
         </div>
+        <div class="embed-row">
+          <button class="embed-toggle" type="button" data-embed-target="embed-gif" data-embed-url="https://gifstudio.onrender.com" aria-expanded="false">▶ Launch here</button>
+        </div>
+        <div class="embed-frame-wrap" id="embed-gif" hidden></div>
       </div>
 
       <div class="work-item">
@@ -482,6 +544,10 @@
           <button class="shot" type="button" data-gallery="moki" data-index="3"><img src="shots/moki-4.jpg" alt="Avatar customisation screen for a player's Moki character" loading="lazy"></button>
           <button class="shot" type="button" data-gallery="moki" data-index="4"><img src="shots/moki-5.jpg" alt="Player profile screen with level, stats and cosmetics" loading="lazy"></button>
         </div>
+        <div class="embed-row">
+          <button class="embed-toggle" type="button" data-embed-target="embed-moki" data-embed-url="https://mokirush.onrender.com" aria-expanded="false">▶ Launch here</button>
+        </div>
+        <div class="embed-frame-wrap" id="embed-moki" hidden></div>
       </div>
     </div>
   </section>
@@ -637,6 +703,32 @@
     }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
 
     items.forEach(function(item){ observer.observe(item); });
+  })();
+
+  (function(){
+    document.querySelectorAll('.embed-toggle').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var wrap = document.getElementById(btn.getAttribute('data-embed-target'));
+        var expanded = btn.getAttribute('aria-expanded') === 'true';
+        if (expanded){
+          wrap.hidden = true;
+          btn.setAttribute('aria-expanded', 'false');
+          btn.textContent = '▶ Launch here';
+          return;
+        }
+        if (!wrap.querySelector('iframe')){
+          var iframe = document.createElement('iframe');
+          iframe.src = btn.getAttribute('data-embed-url');
+          iframe.loading = 'lazy';
+          iframe.title = btn.getAttribute('data-embed-url');
+          wrap.appendChild(iframe);
+        }
+        wrap.hidden = false;
+        btn.setAttribute('aria-expanded', 'true');
+        btn.textContent = '▲ Hide';
+        wrap.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      });
+    });
   })();
 
   (function(){
