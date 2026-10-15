@@ -1,6 +1,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Kiaan Ganesh Shetty</title>
+<meta name="description" content="Web developer Kiaan Ganesh Shetty: shops, games and tools built front to back, with live previews of each.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Kiaan Ganesh Shetty">
+<meta property="og:description" content="Web developer, building small things that work. See the projects, try them live.">
+<meta property="og:image" content="https://kiaan.onrender.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://kiaan.onrender.com">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Kiaan Ganesh Shetty">
+<meta name="twitter:description" content="Web developer, building small things that work. See the projects, try them live.">
+<meta name="twitter:image" content="https://kiaan.onrender.com/og-image.png">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232f6e62'/%3E%3Ctext x='32' y='44' font-family='Georgia,serif' font-size='34' font-weight='600' fill='%23f6f5f1' text-anchor='middle'%3EK%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -261,6 +273,29 @@
     height: 520px;
     border: 0;
   }
+  .embed-loading{
+    height: 520px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+  .embed-spinner{
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 2px solid var(--line);
+    border-top-color: var(--accent);
+    animation: embed-spin 0.7s linear infinite;
+  }
+  @keyframes embed-spin{
+    to{ transform: rotate(360deg); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .embed-spinner{ animation: none; }
+  }
 
   footer{
     display: flex;
@@ -325,6 +360,42 @@
     box-shadow: 0 4px 14px var(--glow);
   }
   .theme-toggle:focus-visible{
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  .back-to-top{
+    position: fixed;
+    bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+    right: 20px;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    color: var(--fg);
+    cursor: pointer;
+    font-size: 1.1rem;
+    line-height: 1;
+    opacity: 0;
+    transform: translateY(8px);
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease, border-color 0.15s ease, color 0.15s ease;
+  }
+  .back-to-top.visible{
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+  .back-to-top:hover, .back-to-top:focus-visible{
+    border-color: var(--accent);
+    color: var(--accent);
+    box-shadow: 0 4px 14px var(--glow);
+  }
+  .back-to-top:focus-visible{
     outline: 2px solid var(--accent);
     outline-offset: 2px;
   }
@@ -436,6 +507,7 @@
 <div class="page-loader" id="pageLoader" aria-hidden="true"><span class="page-loader-mark">K</span></div>
 
 <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode">◐</button>
+<button class="back-to-top" id="backToTop" type="button" aria-label="Back to top">↑</button>
 
 <div class="page">
   <div class="intro">
@@ -708,6 +780,19 @@
   })();
 
   (function(){
+    var btn = document.getElementById('backToTop');
+    if (!btn) return;
+    function update(){
+      btn.classList.toggle('visible', window.scrollY > 500);
+    }
+    window.addEventListener('scroll', update, { passive: true });
+    update();
+    btn.addEventListener('click', function(){
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  })();
+
+  (function(){
     document.querySelectorAll('.embed-toggle').forEach(function(btn){
       btn.addEventListener('click', function(){
         var wrap = document.getElementById(btn.getAttribute('data-embed-target'));
@@ -719,10 +804,19 @@
           return;
         }
         if (!wrap.querySelector('iframe')){
+          var loading = document.createElement('div');
+          loading.className = 'embed-loading';
+          loading.innerHTML = '<span class="embed-spinner"></span><span>Loading…</span>';
+          wrap.appendChild(loading);
+
           var iframe = document.createElement('iframe');
           iframe.src = btn.getAttribute('data-embed-url');
-          iframe.loading = 'lazy';
           iframe.title = btn.getAttribute('data-embed-url');
+          iframe.style.display = 'none';
+          iframe.addEventListener('load', function(){
+            loading.remove();
+            iframe.style.display = 'block';
+          });
           wrap.appendChild(iframe);
         }
         wrap.hidden = false;
