@@ -1,0 +1,445 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>All Projects</title>
+<meta name="description" content="Every public repo from Kiaan Ganesh Shetty's GitHub, pulled live.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232f6e62'/%3E%3Ctext x='32' y='44' font-family='Georgia,serif' font-size='34' font-weight='600' fill='%23f6f5f1' text-anchor='middle'%3EK%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #f6f5f1;
+    --fg: #1d2420;
+    --muted: #5e6b63;
+    --line: #d9d6cc;
+    --accent: #2f6e62;
+    --surface: #ffffff;
+    --glow: rgba(47, 110, 98, 0.08);
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg: #121512;
+      --fg: #edeee8;
+      --muted: #97a39a;
+      --line: #2a332e;
+      --accent: #7fe0c8;
+      --surface: #1a211c;
+      --glow: rgba(127, 224, 200, 0.16);
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg: #121512;
+    --fg: #edeee8;
+    --muted: #97a39a;
+    --line: #2a332e;
+    --accent: #7fe0c8;
+    --surface: #1a211c;
+    --glow: rgba(127, 224, 200, 0.16);
+    color-scheme: dark;
+  }
+
+  *{box-sizing:border-box}
+  body{
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "Work Sans", ui-sans-serif, system-ui, sans-serif;
+    padding-inline: 20px;
+    padding-block: 64px;
+    line-height: 1.5;
+  }
+  .page{
+    max-width: 640px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .back-link{
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    color: var(--muted);
+    text-decoration: none;
+    width: fit-content;
+  }
+  .back-link:hover, .back-link:focus-visible{
+    color: var(--accent);
+  }
+
+  .intro{
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .kicker{
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+  }
+  h1{
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 500;
+    font-size: clamp(1.9rem, 5.5vw, 2.6rem);
+    line-height: 1.1;
+    margin: 0;
+    text-wrap: balance;
+  }
+  .bio{
+    font-size: 1.02rem;
+    color: var(--muted);
+    max-width: 34em;
+    margin: 0;
+  }
+
+  .repo-list{
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid var(--line);
+  }
+  .repo-item{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-block: 20px;
+    border-bottom: 1px solid var(--line);
+  }
+  .repo-head{
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .repo-name{
+    font-family: "Fraunces", Georgia, serif;
+    font-size: 1.1rem;
+    font-weight: 500;
+  }
+  .repo-badge{
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 2px 9px;
+    font-weight: 500;
+  }
+  .repo-desc{
+    font-size: 0.92rem;
+    color: var(--muted);
+    max-width: 42em;
+  }
+  .repo-meta{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 14px;
+    font-size: 0.82rem;
+    color: var(--muted);
+  }
+  .lang-dot{
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    margin-right: 5px;
+  }
+  .repo-links{
+    display: flex;
+    gap: 16px;
+    font-size: 0.88rem;
+    margin-top: 2px;
+  }
+  .repo-links a{
+    color: var(--fg);
+    text-decoration: none;
+    border-bottom: 1px solid var(--line);
+  }
+  .repo-links a:hover, .repo-links a:focus-visible{
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+
+  .status-line{
+    font-size: 0.85rem;
+    color: var(--muted);
+    text-align: center;
+    padding-block: 8px;
+  }
+
+  .theme-toggle{
+    position: fixed;
+    top: calc(20px + env(safe-area-inset-top, 0px));
+    right: 20px;
+    z-index: 90;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    color: var(--fg);
+    cursor: pointer;
+    font-size: 1rem;
+    line-height: 1;
+    transition: border-color 0.15s ease, color 0.15s ease;
+  }
+  .theme-toggle:hover, .theme-toggle:focus-visible{
+    border-color: var(--accent);
+    color: var(--accent);
+    box-shadow: 0 4px 14px var(--glow);
+  }
+  .theme-toggle:focus-visible{
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  .page-loader{
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    animation: loader-dismiss 0.5s ease forwards;
+    animation-delay: 1.3s;
+  }
+  .page-loader-mark{
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 600;
+    font-size: 2rem;
+    color: var(--accent);
+    width: 56px;
+    height: 56px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: loader-pulse 1.1s ease-in-out infinite;
+  }
+  @keyframes loader-dismiss{
+    to{ opacity: 0; visibility: hidden; }
+  }
+  @keyframes loader-pulse{
+    0%, 100%{ opacity: 0.45; transform: scale(0.96); }
+    50%{ opacity: 1; transform: scale(1); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .page-loader-mark{ animation: none; }
+  }
+</style>
+
+<div class="page-loader" id="pageLoader" aria-hidden="true"><span class="page-loader-mark">K</span></div>
+
+<button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode">◐</button>
+
+<div class="page">
+  <a class="back-link" href="/">← Kiaan Ganesh Shetty</a>
+
+  <div class="intro">
+    <p class="kicker">GitHub · gshetty1978-ctrl</p>
+    <h1>All projects.</h1>
+    <p class="bio">Every public repo, pulled straight from GitHub — the five live sites on the homepage and everything else I've built.</p>
+  </div>
+
+  <div class="repo-list" id="repoList">
+    <p class="status-line" id="repoStatus">Loading repos…</p>
+  </div>
+</div>
+
+<script>
+  (function(){
+    var loader = document.getElementById('pageLoader');
+    if (!loader) return;
+    function dismiss(){
+      loader.style.opacity = '0';
+      loader.style.visibility = 'hidden';
+    }
+    if (document.readyState === 'complete') dismiss();
+    else window.addEventListener('load', dismiss);
+  })();
+
+  (function(){
+    var root = document.documentElement;
+    var btn = document.getElementById('themeToggle');
+    var stored = null;
+    try { stored = localStorage.getItem('theme'); } catch(e) {}
+
+    function systemPrefersDark(){
+      return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    }
+    function isDark(){
+      if (root.getAttribute('data-theme') === 'dark') return true;
+      if (root.getAttribute('data-theme') === 'light') return false;
+      return systemPrefersDark();
+    }
+    function render(){
+      btn.textContent = isDark() ? '☀' : '☾';
+    }
+    if (stored === 'dark' || stored === 'light') {
+      root.setAttribute('data-theme', stored);
+    }
+    render();
+
+    btn.addEventListener('click', function(){
+      var next = isDark() ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      try { localStorage.setItem('theme', next); } catch(e) {}
+      render();
+    });
+  })();
+
+  (function(){
+    var GITHUB_USER = 'gshetty1978-ctrl';
+
+    var CURATED = {
+      'Kiaan': {
+        description: 'This portfolio site — built front to back, with live embedded previews of every project.',
+        live: 'https://kiaan.onrender.com'
+      },
+      'GifEditor': {
+        description: 'Source for GIF Studio, a browser-based GIF and animation editor with layers, onion skinning and tweening.',
+        live: 'https://gifstudio.onrender.com'
+      },
+      'Humans-Vs-Aliens': {
+        description: 'Source for Humans vs Aliens, a pixel-art lane-defense game.',
+        live: 'https://humans-vs-aliens.onrender.com'
+      },
+      'MokiRush': {
+        description: 'Source for Moki, a live multiplayer quiz party game.',
+        live: 'https://mokirush.onrender.com'
+      },
+      'Velarque': {
+        description: 'Source for Velarque, a storefront for handmade stationery and crafts.',
+        live: 'https://velarque.onrender.com'
+      },
+      'Download': {
+        description: 'A small personal page for sharing one video file.',
+        live: null
+      }
+    };
+
+    var list = document.getElementById('repoList');
+    var status = document.getElementById('repoStatus');
+
+    function timeAgo(dateStr){
+      var diffMs = Date.now() - new Date(dateStr).getTime();
+      var days = Math.floor(diffMs / 86400000);
+      if (days < 1) return 'today';
+      if (days === 1) return 'yesterday';
+      if (days < 30) return days + ' days ago';
+      var months = Math.floor(days / 30);
+      if (months < 12) return months + (months === 1 ? ' month ago' : ' months ago');
+      var years = Math.floor(months / 12);
+      return years + (years === 1 ? ' year ago' : ' years ago');
+    }
+
+    function renderRepos(repos){
+      list.innerHTML = '';
+      repos.forEach(function(repo){
+        var curated = CURATED[repo.name] || {};
+        var item = document.createElement('div');
+        item.className = 'repo-item';
+
+        var head = document.createElement('div');
+        head.className = 'repo-head';
+        var name = document.createElement('span');
+        name.className = 'repo-name';
+        name.textContent = repo.name;
+        head.appendChild(name);
+        if (curated.live){
+          var badge = document.createElement('span');
+          badge.className = 'repo-badge';
+          badge.textContent = 'Live site';
+          head.appendChild(badge);
+        }
+        item.appendChild(head);
+
+        var desc = document.createElement('p');
+        desc.className = 'repo-desc';
+        desc.textContent = curated.description || repo.description || 'No description yet.';
+        item.appendChild(desc);
+
+        var meta = document.createElement('div');
+        meta.className = 'repo-meta';
+        var metaParts = [];
+        if (repo.language){
+          metaParts.push('<span><span class="lang-dot"></span>' + repo.language + '</span>');
+        }
+        metaParts.push('<span>Updated ' + timeAgo(repo.updated_at) + '</span>');
+        if (repo.stargazers_count > 0){
+          metaParts.push('<span>★ ' + repo.stargazers_count + '</span>');
+        }
+        meta.innerHTML = metaParts.join('<span>·</span>');
+        item.appendChild(meta);
+
+        var links = document.createElement('div');
+        links.className = 'repo-links';
+        var codeLink = document.createElement('a');
+        codeLink.href = repo.html_url;
+        codeLink.target = '_blank';
+        codeLink.rel = 'noopener';
+        codeLink.textContent = 'Code ↗';
+        links.appendChild(codeLink);
+        if (curated.live){
+          var liveLink = document.createElement('a');
+          liveLink.href = curated.live;
+          liveLink.target = '_blank';
+          liveLink.rel = 'noopener';
+          liveLink.textContent = 'Live ↗';
+          links.appendChild(liveLink);
+        }
+        item.appendChild(links);
+
+        list.appendChild(item);
+      });
+    }
+
+    function renderFallback(){
+      var repos = Object.keys(CURATED).map(function(name){
+        return {
+          name: name,
+          description: CURATED[name].description,
+          language: null,
+          updated_at: new Date().toISOString(),
+          stargazers_count: 0,
+          html_url: 'https://github.com/' + GITHUB_USER + '/' + name
+        };
+      });
+      list.innerHTML = '';
+      var note = document.createElement('p');
+      note.className = 'status-line';
+      note.textContent = "Couldn't reach GitHub just now — showing the known list.";
+      list.appendChild(note);
+      renderRepos(repos);
+    }
+
+    fetch('https://api.github.com/users/' + GITHUB_USER + '/repos?per_page=100&sort=updated')
+      .then(function(res){
+        if (!res.ok) throw new Error('GitHub API error');
+        return res.json();
+      })
+      .then(function(repos){
+        var filtered = repos.filter(function(r){ return !r.fork && !r.archived; });
+        if (!filtered.length) throw new Error('No repos returned');
+        status.remove();
+        renderRepos(filtered);
+      })
+      .catch(function(){
+        renderFallback();
+      });
+  })();
+</script>
